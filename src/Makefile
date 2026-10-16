@@ -18,6 +18,7 @@ run: all
 	./test_run
 
 $(NAME): $(OBJS) $(LIBFT)
+	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS)
 
 $(LIBFT):
@@ -25,10 +26,10 @@ $(LIBFT):
 
 clean:
 	rm -f $(OBJS)
-	rm -f test_run
-	$(MAKE) -C ./libft fclean
 
 fclean: clean
+	rm -f test_run
+	$(MAKE) -C ./libft fclean
 	rm -f $(NAME)
 
 re: fclean all
