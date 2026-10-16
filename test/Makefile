@@ -15,6 +15,12 @@ TESTS = $(FILES:.c=)
 
 ../src/$(NAME):
 	$(MAKE) -C ../src
+
+test: 
+	$(MAKE) -C ../src re
+	$(MAKE) clean
+	$(MAKE) $(TESTS)
+	for t in $(TESTS); do ./$$t; done
 	
 asan:
 	$(MAKE) -C ../src fclean
@@ -23,7 +29,22 @@ asan:
 	$(MAKE) $(TESTS) CFLAGS="$(CFLAGS) -g -fsanitize=address"
 	for t in $(TESTS); do ./$$t > /dev/null; done
 
+valgrind:
+	$(MAKE) -C ../src re
+	$(MAKE) $(TESTS)
+	for t in $(TESTS); do valgrind --leak-check=full --show-leak-kinds=all ./$$t > /dev/null; done
 	
+clean:
+	rm -f $(TESTS)
+
+fclean:
+	$(MAKE) -C ../src fclean
+	$(MAKE) clean
+
+norm:
+	$(MAKE) -C ../src && norminette .
+	$(MAKE) -C ../src/libft && norminette .
+
 help:
 	@echo "Available targets:"
 	@echo " clean fclean"
@@ -32,22 +53,4 @@ help:
 	@echo " valgrin"
 	@echo " asan"
 
-test: 
-	$(MAKE) -C ../src re
-	$(MAKE) clean
-	$(MAKE) $(TESTS)
-	for t in $(TESTS); do ./$$t; done
-
-clean:
-	rm -f $(TESTS)
-
-fclean:
-	$(MAKE) -C ../src fclean
-	$(MAKE) clean
-
-valgrind:
-	$(MAKE) -C ../src re
-	$(MAKE) $(TESTS)
-	for t in $(TESTS); do valgrind --leak-check=full --show-leak-kinds=all ./$$t > /dev/null; done
-	
-.PHONY: t test clean fclean valgrind asan help
+.PHONY: t test clean fclean valgrind asan help norm
