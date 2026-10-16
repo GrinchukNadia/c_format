@@ -31,15 +31,33 @@ static void	putnbr_hex(unsigned int n, char x, int *c)
 static void count_num(int i, int *c)
 {
     long n;
-    if(i < 0)
-    {
-        n = i * -1;
+
+    n = i;
+    if (n == 0)
         (*c)++;
+    else
+    {
+        if(n < 0)
+        {
+            n = i * -1;
+            (*c)++;
+        }
+        while(n > 0 )
+        {
+            (*c)++;
+            n /= 10;
+        }
     }
-    while(n > 0 )
+}
+
+static void put_u_num(unsigned int i, int *c)
+{
+    if(i > 0)
     {
+        put_u_num(i/10, c);
+        i = i % 10 + '0';
+        write(1, &i, 1);
         (*c)++;
-        n /= 10;
     }
 }
 
@@ -89,22 +107,30 @@ int ft_printf(const    char *format, ...)
                 
                 
                 i = 17;
-                char *ch = va_arg(list, char *);
-                address = (uintptr_t)ch;
-                while(address > 0)
+                void *ch = va_arg(list, void *);
+                if (!ch)
                 {
-                    buf[i] = "0123456789abcdef"[address % 16];
-                    address /= 16;
-                    i--;
+                    write(1, "(nil)", 5);
+                    c += 5;
                 }
-                buf[i] = 'x';
-                c++;
-                write(1, "0", 1);
-                while(buf[i])
+                else
                 {
-                    write(1, &buf[i], 1);
-                    i++;
+                    address = (uintptr_t)ch;
+                    while(address > 0)
+                    {
+                        buf[i] = "0123456789abcdef"[address % 16];
+                        address /= 16;
+                        i--;
+                    }
+                    buf[i] = 'x';
                     c++;
+                    write(1, "0", 1);
+                    while(buf[i])
+                    {
+                        write(1, &buf[i], 1);
+                        i++;
+                        c++;
+                    }
                 }
             }
             //Writes a signed integer in decimal representation
@@ -125,8 +151,7 @@ int ft_printf(const    char *format, ...)
             {
                 unsigned int ch;
                 ch = va_arg(list, unsigned int);
-                ft_putnbr_fd(ch, 1);
-                count_num(ch, &c);
+                put_u_num(ch, &c);
             }
             //Writes an unsigned integer in hexadecimal representation lowercase
             //Prints a number in hexadecimal (base 16) lowercase format
@@ -134,7 +159,13 @@ int ft_printf(const    char *format, ...)
             {
                 unsigned int ch;
                 ch = va_arg(list, unsigned int);
-                putnbr_hex(ch, 'x', &c);
+                if (ch == 0)
+                {
+                    c++;
+                    write(1, "0", 1);
+                }
+                else
+                    putnbr_hex(ch, 'x', &c);
             }
             //Writes an unsigned integer in hexadecimal representation uppercase
             //Prints a number in hexadecimal (base 16) uppercase format.
@@ -142,7 +173,13 @@ int ft_printf(const    char *format, ...)
             {
                 unsigned int    ch;
                 ch = va_arg(list, unsigned int);
-                putnbr_hex(ch, 'X', &c);
+                if (ch == 0)
+                {
+                    c++;
+                    write(1, "0", 1);
+                }
+                else
+                    putnbr_hex(ch, 'X', &c);
             }
             //Writes % character
             // Prints a percent sign.
@@ -160,7 +197,6 @@ int ft_printf(const    char *format, ...)
         i++;
     }
     va_end(list);
-    // here logic is not done
     return (c);
 }
 

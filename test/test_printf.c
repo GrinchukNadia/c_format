@@ -11,43 +11,133 @@ int main(void)
     int a;
     int b;
     
-    
-    a = ft_printf("\n%c\n", 'a');
-    b = printf("\n%c\n", 'a');
+// --------------c------------------
+    printf("\nActual:     ");
+    b = printf("%c\n", 'a');
+
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%c\n", 'a');
+
     check("digit", a, b);
+// --------------c------------------
+
     
-    a = ft_printf("%s\n", "Hello 42");
+// --------------s------------------
+    printf("\nActual:     ");
     b = printf("%s\n", "Hello 42");
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%s\n", "Hello 42");
+    printf("\n");
     check("string", a, b);
+// --------------s------------------
     
+
+// --------------d------------------
     int c = 4;
-    a = ft_printf("%p\n", &c);
+    printf("\nActual:     ");
     b = printf("%p\n", &c);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%p\n", &c);
     check("pointer", a, b);
-    
-    a = ft_printf("%d\n", 3);
+
+    printf("\nActual:     ");
+    b = printf("%p\n", NULL);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%p\n", NULL);
+    check("pointer address is NULL", a, b);
+// --------------d------------------
+
+
+// --------------d------------------
+    printf("\nActual:     ");
+    b = printf("%d\n", 0);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%d\n", 0);
+    check("digit d: 0", a , b);
+
+    printf("\nActual:     ");
     b = printf("%d\n", 3);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%d\n", 3);
     check("digit d", a, b);
-    
-    a = ft_printf("%i\n", 4);
+// --------------d------------------
+
+
+// --------------i------------------
+    printf("\nActual:     ");
+    printf("Expected:   ");
     b = printf("%i\n", 4);
+    fflush(stdout);
+    a = ft_printf("%i\n", 4);
     check("digit i", a, b);
-    
-    a = ft_printf("%u\n", 42);
+// --------------i------------------
+
+
+// --------------u------------------
+    printf("\nActual:     ");
+    b = printf("%u\n", 4294967295U);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%u\n", 4294967295U);
+    check("unsigned decimal, max", a, b);
+
+    printf("\nActual:     ");
     b = printf("%u\n", 42);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%u\n", 42);
     check("unsigned decimal", a, b);
-    
+// --------------u------------------
+
+
+// --------------x------------------
+    printf("\nActual:     ");
+    b = printf("%x\n", 0);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%x\n", 0);
+    check("hexadeciaml lowercase: 0", a , b);
+
+    printf("\nActual:     ");
     b = printf("%x\n", 420);
+    printf("Expected:   ");
+    fflush(stdout);
     a = ft_printf("%x\n", 420);
     check("hexadeciaml lowercase", a, b);
+// --------------x------------------
+
+
+// --------------X------------------
+    printf("\nActual:     ");
+    b = printf("%X\n", 0);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%X\n", 0);
+    check("hexadecimal uppercase: 0", a, b);
     
-    a = ft_printf("%X\n", 300);
+    printf("\nActual:     ");
     b = printf("%X\n", 300);
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%X\n", 300);
     check("hexadecimal uppercase", a, b);
-    
-    a = ft_printf("%%\n");
+// --------------X------------------
+
+
+// --------------%------------------
+    printf("\nActual:     ");
     b = printf("%%\n");
+    printf("Expected:   ");
+    fflush(stdout);
+    a = ft_printf("%%\n");
     check("\% sign", a, b);
-    
+// --------------%------------------
+
     return (test_result());
 }
