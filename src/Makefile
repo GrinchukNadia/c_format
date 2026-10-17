@@ -1,6 +1,6 @@
 NAME = printf.a
 
-SRCS = ft_printf.c
+SRCS = ft_printf.c handle_p.c handle_nums.c handle_chrs.c handle_hex.c
 
 OBJS = $(SRCS:.c=.o)
 
