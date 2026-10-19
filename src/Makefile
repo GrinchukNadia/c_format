@@ -13,10 +13,6 @@ LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-run: all
-	cc $(CFLAGS) -g $(SRCS) -I. -I ./libft $(NAME) $(LIBFT) -o test_run
-	./test_run
-
 $(NAME): $(OBJS) $(LIBFT)
 	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS)
@@ -28,11 +24,9 @@ clean:
 	rm -f $(OBJS)
 
 fclean: clean
-	rm -f test_run
 	$(MAKE) -C ./libft fclean
 	rm -f $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
-
