@@ -55,6 +55,6 @@ int	ft_printf(const char *format, ...)
 		}
 		i++;
 	}
-	//va_end(list);
+	va_end(list);
 	return (c);
 }
