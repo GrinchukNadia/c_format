@@ -1,4 +1,4 @@
-NAME = printf.a
+NAME = libftprintf.a
 
 SRCS = ft_printf.c handle_p.c handle_nums.c handle_chrs.c handle_hex.c
 

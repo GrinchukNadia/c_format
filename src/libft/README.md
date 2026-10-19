@@ -20,7 +20,6 @@ Other available commands:
 - `make clean` - removes object files (`.o`).
 - `make fclean` - removes object files and `libft.a`.
 - `make re` - rebuilds the library from scratch.
-- `make bonus` - extends the library with additional linked list functions.
 - `help` - displays all available commands.
 
 ### Usage

@@ -1,6 +1,6 @@
-NAME = printf.a
+NAME = libftprintf.a
 
-LIB_NAME = printf.a
+LIB_NAME = libftprintf.a
 
 LIB = ../src/$(LIB_NAME)
 
@@ -42,8 +42,7 @@ fclean:
 	$(MAKE) clean
 
 norm:
-	$(MAKE) -C ../src && norminette .
-	$(MAKE) -C ../src/libft && norminette .
+	cd ../src && norminette .
 
 help:
 	@echo "Available targets:"
