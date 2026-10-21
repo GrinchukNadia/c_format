@@ -34,6 +34,8 @@ void	handle_s(va_list list, int *c)
 
 	i = 0;
 	ch = va_arg(list, char *);
+	if (!ch)
+		ch = "(null)";
 	while (ch[i])
 	{
 		write(1, &ch[i], 1);
