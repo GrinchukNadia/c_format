@@ -12,6 +12,13 @@
 
 #include "ft_printf.h"
 
+static int	ft_toupper(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (c - 32);
+	return (c);
+}
+
 static void	putnbr_hex(unsigned int n, char x, int *c)
 {
 	char	chr;

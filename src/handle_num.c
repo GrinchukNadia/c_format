@@ -1,16 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   handle_nums.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngrinchu <ngrinchu@learner.42.tech>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/01 17:27:31 by ngrinchu          #+#    #+#             */
-/*   Updated: 2026/10/01 17:27:32 by ngrinchu         ###   ########.fr       */
+/*   Created: 2026/10/17 10:21:06 by ngrinchu          #+#    #+#             */
+/*   Updated: 2026/10/17 10:21:09 by ngrinchu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/* Writes an integer to the given file descriptor. */
-#include <unistd.h>
+
+#include "ft_printf.h"
+
+static void	count_num(int i, int *c)
+{
+	long	n;
+
+	n = i;
+	if (n == 0)
+		(*c)++;
+	else
+	{
+		if (n < 0)
+		{
+			n *= -1;
+			(*c)++;
+		}
+		while (n > 0)
+		{
+			(*c)++;
+			n /= 10;
+		}
+	}
+}
 
 static void	write_nbr(long n, int fd)
 {
@@ -22,7 +44,7 @@ static void	write_nbr(long n, int fd)
 	write(fd, &c, 1);
 }
 
-void	ft_putnbr_fd(int n, int fd)
+static void	ft_putnbr_fd(int n, int fd)
 {
 	long	nc;
 
@@ -33,4 +55,13 @@ void	ft_putnbr_fd(int n, int fd)
 		nc *= -1;
 	}
 	write_nbr(nc, fd);
+}
+
+void	handle_di(va_list list, int *c)
+{
+	int	ch;
+
+	ch = va_arg(list, int);
+	ft_putnbr_fd(ch, 1);
+	count_num(ch, c);
 }
